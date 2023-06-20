@@ -3,7 +3,7 @@
 ## นายกิตติธัช โจหิงค์ T00983 (GIS)
 
 README.md
-## ส่ง Assignment Web Beginner
+## ส่ง Assignment Web Intermidiate
 
 ## Assignment 1 Query Task
 files : src\app\assignment\query-task
