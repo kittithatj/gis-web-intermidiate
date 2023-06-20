@@ -1,0 +1,23 @@
+<div class="flex flex-wrap h-screen surface-100">
+    <div class="col-9 h-full p-3 pr-1">
+        <div #mapPanel class="map-border h-full shadow-2"> </div>
+    </div>
+    <div class="col-3 h-full py-3">
+        <div class="flex-column shadow-2 h-full overflow-auto border-round-sm bg-white">
+            <div *ngIf="routesFeatures.length === 0" class="text-center">
+                <h3>Closest Facility Not Found...</h3>
+            </div>
+            <div *ngIf="isLoading" class="text-center pt-3">
+                <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="5"
+                    animationDuration=".5s"></p-progressSpinner>
+            </div>
+            <div *ngIf="!isLoading">
+                <div *ngFor="let feature of routesFeatures" (click)="createRouteGraphic(feature)"
+                    [ngClass]="selectedRoute === feature?'bg-teal-500 text-white':'bg-teal-100 hover:bg-teal-200 cursor-pointer'"
+                    class="block p-3 m-2 border-round-sm">
+                    {{feature.attributes.Name}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

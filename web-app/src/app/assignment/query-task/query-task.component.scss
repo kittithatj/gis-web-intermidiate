@@ -1,0 +1,14 @@
+:host {
+    .map-border {
+        border: 12px solid #f3f3f3;
+        border-radius: 5px;
+    }
+
+    .active {
+        background-color: #c0f6ff;
+    }
+
+    tr.inactive:hover {
+        background-color: #f6f6f6;
+    }
+}

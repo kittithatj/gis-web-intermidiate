@@ -1,0 +1,31 @@
+<div class="flex flex-wrap h-screen surface-100">
+    <div class="col-8 h-full p-2">
+        <div #mapPanel class="map-border h-full shadow-2"> </div>
+    </div>
+    <div class="col-4 h-full p-2">
+        <div class="flex-column shadow-2 h-full overflow-auto border-round-sm bg-white">
+            <div class="flex justify-content-center sticky top-0 bg-white">
+                <p-button label="Start Route" icon="pi pi-car" styleClass="p-button-success m-3 mr-2"
+                    (onClick)="startRoute()" [disabled]="routePoints.length < 2"></p-button>
+                <p-button label="Clear All" icon="pi pi-trash" styleClass="p-button-danger m-3 ml-0"
+                    (onClick)="clearRoutingPoint()"></p-button>
+                <p-button icon="pi pi-undo" styleClass="my-3 mx-2" (onClick)="undoRoutingPoint()"
+                    [disabled]="routePoints.length === 0"></p-button>
+                <p-button icon="pi pi-refresh" styleClass="my-3" (onClick)="redoRoutingPoint()"
+                    [disabled]="undoPointsTemp.length === 0"></p-button>
+            </div>
+            <div *ngIf="isLoading" class="text-center pt-3">
+                <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="5"
+                    animationDuration=".5s"></p-progressSpinner>
+            </div>
+            <div *ngIf="!isLoading">
+                <div *ngFor="let path of directionPaths;index as i" (click)="createSpecificRouteGraphic(path)"
+                    [ngClass]="selectedDirectionPath === path?'bg-yellow-400 text-white':'bg-yellow-100 hover:bg-yellow-200 cursor-pointer'"
+                    class="block p-3 m-2 border-round-sm">
+                    {{i+1}}.) {{path.attributes.text}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-toast position="bottom-left"></p-toast>
+</div>

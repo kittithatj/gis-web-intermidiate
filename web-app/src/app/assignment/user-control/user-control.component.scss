@@ -1,0 +1,10 @@
+:host {
+    .map-border {
+        border: 6px solid #ffffff;
+        border-radius: 5px;
+    }
+
+    ::ng-deep .p-button {
+        padding: 0.7rem;
+    }
+}

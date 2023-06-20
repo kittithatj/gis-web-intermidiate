@@ -1,0 +1,87 @@
+<div class="flex flex-wrap h-screen bg-white">
+    <div class="col-4 h-full p-0">
+        <div class="flex-column shadow-2 h-full overflow-auto">
+            <div class="flex bg-white sticky top-0">
+                <span class="p-input-icon-left w-full m-2">
+                    <i class="pi pi-search"></i>
+                    <input type="text" class="w-full" pInputText [(ngModel)]="searchValue" placeholder="Search" />
+                </span>
+                <p-button class="m-2 mx-1" icon="pi pi-user-plus" (onClick)="onClickCreateUser()"
+                    styleClass="p-button-success"></p-button>
+                <p-button class="m-2 mx-1" icon="pi pi-refresh"
+                    (onClick)="fetchUserData();messageService.add({ severity: 'success', summary: 'Success', detail: 'รีเฟรชรายชื่อผู้ใช้แล้ว'})"
+                    styleClass="p-button-secondary"></p-button>
+            </div>
+            <div *ngFor="let user of filterUser()" class="px-2 pt-0">
+
+                <div class="block p-3 m-0" (click)="onSelectUser(user)"
+                    [ngClass]="selectedUser === user?'bg-gray-200':'hover:bg-gray-200 cursor-pointer'">
+                    <p-avatar [styleClass]="avatarColorClass(user.GENDER)" icon="pi pi-user" styleClass="mr-2"
+                        shape="circle"></p-avatar>
+                    <span class="m-2">
+                        {{user.NAME+' '+user.SURNAME}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-8 h-full">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" (reset)="onClearForm()">
+            <div class="m-3">
+                <div class="flex justify-content-between">
+                    <h2 class="m-2" *ngIf="!selectedUser">สร้างข้อมูลผู้ใช้งาน</h2>
+                    <h2 class="m-2" *ngIf="selectedUser">แก้ไขข้อมูลผู้ใช้งาน</h2>
+                    <p-button *ngIf="selectedUser" class="m-2" icon="pi pi-trash" label="ลบผู้ใช้"
+                        styleClass="p-button-danger" (onClick)="onDelete()"></p-button>
+                </div>
+                <div class="mt-3">
+                    <label class="inline-block w-2" for="name">ชื่อ :</label>
+                    <input pInputText type="text" formControlName="name" />
+                    <p-rating class="inline-block ml-3" [readonly]="true" [cancel]="false" [stars]="3"
+                        [(ngModel)]="horoPoint" [ngModelOptions]="{standalone: true}"></p-rating>
+                </div>
+                <div class="mt-3">
+                    <label class="inline-block w-2" for="name">นามสกุล :</label>
+                    <input pInputText type="text" formControlName="surname" />
+                </div>
+                <div class="mt-3">
+                    <label class="inline-block w-2" for="name">เพศ :</label>
+                    <p-radioButton formControlName="gender" [value]="'M'" [(ngModel)]="selectedGender"></p-radioButton>
+                    <label class="mx-2">ชาย</label>
+                    <p-radioButton formControlName="gender" [value]="'F'" [(ngModel)]="selectedGender"></p-radioButton>
+                    <label class="ml-2">หญิง</label>
+                </div>
+                <div class="mt-3">
+                    <label class="inline-block w-2" for="name">หมายเลขโทรศัพท์ :</label>
+                    <input pInputText type="text" maxlength="10" formControlName="mobile" />
+                    <div class="inline-block text-red-500 m-3" *ngIf="validator('mobilePattern')">
+                        กรุณากรอกหมายเลขโทรศัพท์มือถือควรประกอบด้วยตัวเลข 0-9
+                    </div>
+                </div>
+            </div>
+            <div #mapPanel class="map-border h-21rem shadow-1"></div>
+            <div class="mt-3">
+                <p-button class="m-2" label="บันทึก" icon="pi pi-save" type="submit"
+                    styleClass="p-button-success"></p-button>
+                <p-button class="m-2" label="ล้างแบบฟอร์ม" icon="pi pi-times-circle" type="reset"
+                    styleClass="p-button-secondary"></p-button>
+                <div class="inline-block text-red-500">
+                    <div *ngIf="validator('fieldRequired')">
+                        กรุณากรอกข้อมูลให้ครบถ้วน
+                    </div>
+                    <!-- <div *ngIf="validator('mobilePattern')">
+                        กรุณากรอกหมายเลขโทรศัพท์มือถือให้ถูกต้อง
+                    </div>
+                    <div *ngIf="validator('mobileLength')">
+                        กรุณากรอกหมายเลขโทรศัพท์มือถือให้ครบถ้วน
+                    </div>
+                    <div *ngIf="validator('mapPoint')">
+                        กรุณาระบุพิกัดตำแหน่งที่อยู่
+                    </div> -->
+                </div>
+            </div>
+        </form>
+    </div>
+    <p-toast position="top-right"></p-toast>
+    <p-confirmDialog [style]="{width: '400px'}"></p-confirmDialog>
+</div>
